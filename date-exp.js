@@ -9,8 +9,8 @@
 }(typeof self !== 'undefined' ? self : this, function () {
     'use strict';
 
-    function number(value) {
-        var n = Number(value);
+    function int(value) {
+        var n = parseInt(value);
         return isNaN(n) ? 0 : n;
     }
 
@@ -18,18 +18,30 @@
         return expression.replace(/yyyy|MM|dd|HH|mm|ss|SSS|e|Z/g, function (name) {
             return context[name];
         });
-    };
+    }
+
+    function isLeapYear(year) {
+        return ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
+    }
+
+    function getMonthDays(year, month) {
+        var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
+        if (month === 1 && isLeapYear(year)) {
+            days += 1;
+        }
+        return days;
+    }
 
     function Duration(duration) {
         if (duration) {
             var r = /P(\d+)W|P((\d+)Y)?((\d+)M)?((\d+)D)?(T((\d+)H)?((\d+)M)?((\d+)S)?)?/.exec(duration) || [];
-            this.years = number(r[3]);
-            this.months = number(r[5]);
-            this.dates = number(r[7]);
-            this.hours = number(r[10]);
-            this.minutes = number(r[12]);
-            this.seconds = number(r[14]);
-            this.weeks = number(r[1]);
+            this.years = int(r[3]);
+            this.months = int(r[5]);
+            this.dates = int(r[7]);
+            this.hours = int(r[10]);
+            this.minutes = int(r[12]);
+            this.seconds = int(r[14]);
+            this.weeks = int(r[1]);
         } else {
             this.years = 0;
             this.months = 0;
@@ -90,8 +102,14 @@
             duration.seconds;
         var d = new Date(date.getTime());
         var m = d.getFullYear() * 12 + d.getMonth() + direction * months;
-        d.setFullYear(m / 12);
-        d.setMonth(m % 12);
+        var year = Math.floor(m / 12);
+        var month = m % 12;
+        var days = getMonthDays(year, month);
+        if (days < d.getDate()) {
+            d.setDate(days);
+        }
+        d.setFullYear(year);
+        d.setMonth(month);
         d.setTime(d.getTime() + direction * seconds * 1000);
         return d;
     }
