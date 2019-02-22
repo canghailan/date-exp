@@ -75,5 +75,13 @@ P1W # 1周
 n可使用变量或常量
 
 
+## 兼容性
+兼容浏览器及NodeJS，低版本浏览器需要polyfill（```String.trim```, ```String.padStart```）
+
+
 ## 参考文档
 [IETF RFC 3339](https://tools.ietf.org/html/rfc3339), based on ISO 8601:2000
+
+
+## License
+MIT
