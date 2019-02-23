@@ -70,17 +70,40 @@
 
     DateExp.context = function (date) {
         var d = date || new Date();
-        var z = - d.getTimezoneOffset() * 100 / 60 - d.getTimezoneOffset() % 60;
+        var Y = d.getFullYear();
+        var M = d.getMonth() + 1;
+        var D = d.getDate();
+        var h = d.getHours();
+        var m = d.getMinutes();
+        var s = d.getSeconds();
+        var S = d.getMilliseconds();
+        var e = d.getDay() == 0 ? 7 : d.getDay();
+        var tz = - d.getTimezoneOffset() * 100 / 60 - d.getTimezoneOffset() % 60;
+        var YYYY = String(Y).padStart(4, '0');
+        var MM = String(M).padStart(2, '0');
+        var DD = String(D).padStart(2, '0');
+        var hh = String(h).padStart(2, '0');
+        var mm = String(m).padStart(2, '0');
+        var ss = String(s).padStart(2, '0');
+        var SSS = String(S).padStart(3, '0');
+        var Z = (tz >= 0) ? ('+' + String(tz).padStart(4, '0')) : ('-' + String(-tz).padStart(4, '0'));
         return {
-            yyyy: String(d.getFullYear()),
-            MM: String(d.getMonth() + 1).padStart(2, '0'),
-            dd: String(d.getDate()).padStart(2, '0'),
-            HH: String(d.getHours()).padStart(2, '0'),
-            mm: String(d.getMinutes()).padStart(2, '0'),
-            ss: String(d.getSeconds()).padStart(2, '0'),
-            SSS: String(d.getMilliseconds()).padStart(3, '0'),
-            e: String(d.getDay()),
-            Z: (z >= 0) ? ('+' + String(z).padStart(4, '0')) : ('-' + String(-z).padStart(4, '0'))
+            Y: Y,
+            M: M,
+            D: D,
+            h: h,
+            m: m,
+            s: s,
+            S: S,
+            e: e,
+            yyyy: YYYY,
+            MM: MM,
+            dd: DD,
+            HH: hh,
+            mm: mm,
+            ss: ss,
+            SSS: SSS,
+            Z: Z
         };
     };
 
