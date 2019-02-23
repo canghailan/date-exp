@@ -25,11 +25,10 @@
     }
 
     function getMonthDays(year, month) {
-        var days = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
         if (month === 1 && isLeapYear(year)) {
-            days += 1;
+            return 29;
         }
-        return days;
+        return [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31][month];
     }
 
     function Duration(duration) {
@@ -77,7 +76,7 @@
         var m = d.getMinutes();
         var s = d.getSeconds();
         var S = d.getMilliseconds();
-        var e = d.getDay() == 0 ? 7 : d.getDay();
+        var e = d.getDay() === 0 ? 7 : d.getDay();
         var tz = - d.getTimezoneOffset() * 100 / 60 - d.getTimezoneOffset() % 60;
         var YYYY = String(Y).padStart(4, '0');
         var MM = String(M).padStart(2, '0');
